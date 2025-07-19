@@ -8,56 +8,74 @@ function computer ()
         default : return "rock" ;
     }
 }
-function human ()
-{
-    let res=prompt( "paper rock or scissors ? ");
-    return res ;
-}
-function game ()
-{
-    let Hscore=0;
-    let Cscore=0;
-    function round ()
+let play =document.querySelector("#play");
+let menu=document.querySelector("#buttons");
+ let score=document.querySelector(".score");
+let current=document.querySelector(".current");
+let end=document.querySelector(".end");
+let eco ;
+let Hscore;
+let Cscore;
+let human;
+play.addEventListener("click",function()
     {
-        let h=human();
+        Hscore=0;
+        Cscore=0;
+        eco=0;
+        current.textContent="";
+        end.textContent="";
+        score.textContent="";
+    });
+
+    function round (human)
+    {
+        let h=human;
         let c=computer();
-        console.log("Human:", h);
-        console.log("Computer:", c);
 
         if (h === c) {
-            console.log("Égalité !");
+        current.textContent="Égalité !";
         } else if (
             (h === "rock" && c === "scissors") ||
             (h === "paper" && c === "rock") ||
             (h === "scissors" && c === "paper")
         ) {
-            console.log("Tu gagnes !");
+            current.textContent="Tu gagnes !";
             Hscore++;
         } else if (
             (h === "rock" && c === "paper") ||
             (h === "paper" && c === "scissors") ||
             (h === "scissors" && c === "rock")
         ) {
-            console.log("Tu perds !");
+            current.textContent="Tu perds !";
             Cscore++;
         } else {
             console.log("Entrée invalide !");
         }
 
-        console.log(`Score: Humain ${Hscore} - Ordinateur ${Cscore}`);
+        score.textContent=`Score: Humain ${Hscore} - Ordinateur ${Cscore}`;
         
     }
-    for (let i=0;i<5;i++)
-    {
-        round();
-    }
-    if (Cscore>Hscore)
-    {
-        console.log("COMPUTER WINS");
-    }
-    else
-    {
-        console.log("HUMAN WINS");
-    }
-}
-game ();
+    menu.addEventListener("click",function(e)
+        {
+            if (Hscore === undefined || Cscore === undefined || eco === undefined) return;
+            let res=e.target.id;
+            if (eco<5)
+            {
+                round (res);
+                eco++;
+            }
+            else
+            {
+                if (Hscore>=Cscore)
+                {
+                    end.textContent="YOU WIN";
+                }
+                else
+                {
+                    end.textContent="COMPUTER WINS";
+                }
+                return;
+            }
+
+            });
+    
